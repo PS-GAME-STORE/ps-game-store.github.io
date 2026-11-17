@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0b1220">
     <title>PS GAME STORE | PS5 WebKit Host</title>
+
     <style>
       html, body { margin: 0; padding: 0; min-height: 100%; }
       body { background: #080d18; color: #e5eefc; font-family: Arial, Helvetica, sans-serif; }
@@ -21,15 +22,33 @@
       .footer { margin: 15px 0 10px; color: #879ab6; font-size: 12px; line-height: 1.6; }
       .footer a { color: #8dbbff; }
       @media (max-width: 600px) { .wrap { padding: 11px; } .masthead { padding: 17px; } h1 { font-size: 25px; } }
+    #console {
+  background-color: #050505;
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.60)
+    ),
+    url("hero.jpg");
+
+  background-position: center, center;
+  background-size: cover, contain;
+  background-repeat: no-repeat, no-repeat;
+
+  color: #ffffff;
+  text-shadow: 0 2px 5px #000000;
+  border: 1px solid #d5a536;
+  font-size: 15px;
+}
     </style>
     <script src="src/main.js" defer></script>
   </head>
   <body>
     <div class="wrap">
-<div class="masthead" style="padding:0; overflow:hidden; background:#050505;">
-  <img src="hero.jpg"
-       alt="PS GAME STORE"
-       style="display:block; width:100%; height:auto;">
+<div class="masthead">
+  <p class="eyebrow">PS5 WEBKIT HOST</p>
+  <h1>PS GAME STORE</h1>
+  <p class="sub">PlayStation 5 · Firmware 13.60</p>
 </div>
       <p class="panel-title">System log / Console output</p>
       <pre id="console"></pre>
