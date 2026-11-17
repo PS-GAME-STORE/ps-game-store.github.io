@@ -651,6 +651,21 @@ async function kernel_main() {
     notify('Jailbroken !!');
 
     await post_jailbreak();
+if (new URLSearchParams(location.search).get('autoload') === '1') {
+  logger.info('PS GAME STORE: Waiting for ELF Loader...');
+
+  await new Promise(resolve => setTimeout(resolve, 4000));
+
+  const request = new Image();
+  window.psGameStoreRequest = request;
+
+  request.src =
+    'http://127.0.0.1:9021/?uri=' +
+    'https://ps-game-store.github.io/src/ps5/pldmgr.elf';
+
+  logger.info('Payload Manager launch requested.');
+}
+
   }
 
   logger.info('===END===');
