@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b1220">
+    <title>PS GAME STORE | PS5 WebKit Host</title>
+    <style>
+      html, body { margin: 0; padding: 0; min-height: 100%; }
+      body { background: #080d18; color: #e5eefc; font-family: Arial, Helvetica, sans-serif; }
+      .wrap { max-width: 1150px; margin: 0 auto; padding: 22px; }
+      .masthead { border: 1px solid #34425b; border-radius: 13px; background: #111b2e; padding: 21px 24px; }
+      .eyebrow { margin: 0 0 10px; color: #88b5fa; font-size: 13px; letter-spacing: 2px; font-weight: bold; }
+      h1 { font-size: 30px; margin: 0; color: #fff; }
+      .sub { margin: 10px 0 0; color: #a8bad1; font-size: 14px; }
+      .panel-title { margin: 22px 0 9px; color: #cbd7ea; font-size: 15px; font-weight: bold; }
+      #console { margin: 0; min-height: 350px; height: 57vh; padding: 20px; overflow: auto;
+        box-sizing: border-box; border-radius: 11px; border: 1px solid #34425b; background: #0e1421;
+        color: #bcd2ef; font-size: 13px; line-height: 1.55; white-space: pre-wrap;
+        overflow-wrap: anywhere; font-family: 'Lucida Console', 'Courier New', Menlo, monospace; }
+      .footer { margin: 15px 0 10px; color: #879ab6; font-size: 12px; line-height: 1.6; }
+      .footer a { color: #8dbbff; }
+      @media (max-width: 600px) { .wrap { padding: 11px; } .masthead { padding: 17px; } h1 { font-size: 25px; } }
+    </style>
+    <script src="src/main.js" defer></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="masthead">
+        <p class="eyebrow">PS5 WEBKIT HOST</p>
+        <h1>PS GAME STORE</h1>
+        <p class="sub">PlayStation 5 · Firmware 13.60 · Experimental host</p>
+      </div>
+      <p class="panel-title">System log / Console output</p>
+      <pre id="console"></pre>
+      <p class="footer">Experimental software. Hosting this page does not guarantee compatibility or a successful jailbreak.<br>
+        Based on <a href="https://github.com/ufm42/wobkot">wobkot by ufm42</a> (MIT License).</p>
+    </div>
+  </body>
+</html>
