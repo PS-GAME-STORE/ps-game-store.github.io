@@ -641,8 +641,9 @@ function jailbreak() {
 async function kernel_main() {
   logger.info('===KERNEL===');
 
-  const testAutoload = version.console === 5 &&
-    new URLSearchParams(location.search).get('autoload') === '1';
+  
+const testAutoload = version.console === 5;
+
 
   let managerElf = null;
 
