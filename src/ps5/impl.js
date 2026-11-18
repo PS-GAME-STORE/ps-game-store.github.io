@@ -150,6 +150,62 @@ async function post_jailbreak() {
   mem.free(ret_addr);
 }
 
+
+// PS GAME STORE: experimental local TCP send. No additional kernel exploit.
+// Test only on a PS5 you control. Do not assume a successful write means the
+// native payload ran successfully; verify in Payload Manager after launch.
+async function psGameStoreSendElf(elfBytes) {
+  if (!elfBytes || elfBytes.byteLength < 4 ||
+      elfBytes[0] !== 0x7f || elfBytes[1] !== 0x45 ||
+      elfBytes[2] !== 0x4c || elfBytes[3] !== 0x46) {
+    throw new Error('The payload is not an ELF file');
+  }
+
+  const connectFn = new NativeFunction(0x62, 'number'); // FreeBSD connect(2)
+  const sockaddrPtr = mem.alloc(16);
+  let fd = -1;
+  try {
+    const sa = arw.view(sockaddrPtr);
+    for (let i = 0; i < 16; i++) sa.setUint8(i, 0);
+    sa.setUint8(0, 16);   // sin_len
+    sa.setUint8(1, 2);    // AF_INET
+    sa.setUint8(2, 0x23); // 9021 (network-order, high byte)
+    sa.setUint8(3, 0x3d); // 9021 (network-order, low byte)
+    sa.setUint8(4, 127);  // loopback 127.0.0.1
+    sa.setUint8(7, 1);
+
+    const waitStart = Date.now();
+    let connectAttempts = 0;
+    logger.info('PS GAME STORE: waiting for local ELF Loader on :9021 ...');
+    for (let attempt = 0; attempt < 16; attempt++) {
+      connectAttempts++;
+      fd = fn.socket.invoke(AF_INET, SOCK_STREAM, 0);
+      if (fd < 0) throw new Error('socket() failed');
+      if (connectFn.invoke(fd, sockaddrPtr, 16) === 0) break;
+      fn.close.invoke(fd);
+      fd = -1;
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    }
+    if (fd < 0) throw new Error('ELF Loader did not accept loopback connection');
+    logger.info(`PS GAME STORE: ELF Loader connected in ${Date.now() - waitStart} ms (attempt ${connectAttempts})`);
+
+    const sendStart = Date.now();
+    const ptr = elfBytes.buffer.data();
+    let sent = 0;
+    while (sent < elfBytes.byteLength) {
+      const count = Math.min(0x4000, elfBytes.byteLength - sent);
+      const n = fn.write.invoke(fd, ptr.add(sent), count).i;
+      if (n <= 0 || n > count) throw new Error(`write() failed at byte ${sent}`);
+      sent += n;
+    }
+    logger.info(`PS GAME STORE: sent ${sent} ELF bytes to loader in ${Date.now() - sendStart} ms`);
+    logger.info(`PS GAME STORE: total connect + send: ${Date.now() - waitStart} ms`);
+  } finally {
+    if (fd >= 0) fn.close.invoke(fd);
+    mem.free(sockaddrPtr);
+  }
+}
+
 const impl_map = {
   6: {
     0: {
