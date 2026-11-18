@@ -637,10 +637,26 @@ function jailbreak() {
   logger.info('Achieved jailbreak !!');
 }
 
+
 async function kernel_main() {
   logger.info('===KERNEL===');
 
+  const testAutoload = version.console === 5 &&
+    new URLSearchParams(location.search).get('autoload') === '1';
+
+  let managerElf = null;
+
+  if (testAutoload) {
+    try {
+      managerElf = await load_file('src/ps5/pldmgr.elf');
+      logger.info(`Payload Manager prefetched: ${managerElf.byteLength} bytes`);
+    } catch (err) {
+      logger.error(`Autoload disabled: ${String(err)}`);
+    }
+  }
+
   await exploit();
+
 
   find_all_proc();
 
@@ -651,20 +667,14 @@ async function kernel_main() {
     notify('Jailbroken !!');
 
     await post_jailbreak();
-if (new URLSearchParams(location.search).get('autoload') === '1') {
-  logger.info('PS GAME STORE: Waiting for ELF Loader...');
 
-  await new Promise(resolve => setTimeout(resolve, 500));
-
-  const request = new Image();
-  window.psGameStoreRequest = request;
-
-  request.src =
-    'http://127.0.0.1:9021/?uri=' +
-    'https://ps-game-store.github.io/src/ps5/pldmgr.elf';
-
-  logger.info('Payload Manager launch requested.');
-}
+    if (managerElf) {
+      try {
+        await psGameStoreSendElf(managerElf);
+      } catch (err) {
+        logger.error(`Autoload failed: ${String(err)}`);
+      }
+    }
 
   }
 
