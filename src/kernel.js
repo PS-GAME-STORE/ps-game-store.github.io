@@ -654,7 +654,7 @@ async function kernel_main() {
 if (new URLSearchParams(location.search).get('autoload') === '1') {
   logger.info('PS GAME STORE: Waiting for ELF Loader...');
 
-  await new Promise(resolve => setTimeout(resolve, 4000));
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   const request = new Image();
   window.psGameStoreRequest = request;
