@@ -664,9 +664,6 @@ const testAutoload = version.console === 5;
   // Avoid reapplying if already done
   if (fn.setuid.invoke(0) === -1) {
     jailbreak();
-
-    notify('Jailbroken !!');
-
     await post_jailbreak();
 
     if (managerElf) {
