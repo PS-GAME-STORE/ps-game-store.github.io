@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PS GAME STORE | Test Gateway</title>
+<style>
+html,body{margin:0;min-height:100%;font:18px Arial,Helvetica,sans-serif;background:#090a0e;color:#fff}
+main{margin:6vh auto;max-width:760px;padding:16px;text-align:center}
+h1{font-size:40px;color:#f4c765;letter-spacing:1px;margin:8px auto 10px}
+h2{font-size:23px;margin:10px auto;color:#f4c765}
+p{color:#d8d8d8;line-height:1.55}
+.box{background:#171719;border:1px solid #946e24;border-radius:12px;padding:20px;margin:18px auto}
+a.action{display:block;padding:17px;margin:15px auto;background:#2b2519;border:2px solid #d9ad50;border-radius:9px;color:#fff;text-decoration:none;font-size:23px;font-weight:bold;max-width:570px}
+a.sub{display:inline-block;margin:10px;color:#f8d586}
+small{color:#bbc0c7;line-height:1.5;display:block}
+#chosen{color:#f4c765;font-size:20px}
+</style></head><body><main>
+<h1>PS GAME STORE</h1>
+<h2>TEST MODE - DO NOT USE FOR CUSTOMERS</h2>
+<p id="chosen">Checking device...</p>
+<div class="box" id="ps4">
+<h2>PlayStation 4</h2>
+<p>GamerHack original Multi FW test. This may start cache installation and jailbreak after you open it.</p>
+<a class="action" href="../gh-test/g2all/index.html">START PS4 GAMERHACK TEST</a>
+<small>Testing this route does not replace your stable WebKitty host.</small>
+</div>
+<div class="box" id="ps5">
+<h2>PlayStation 5</h2>
+<p>Current PS GAME STORE PS5 host, unchanged. GamerHack upload contains no PS5 jailbreak host.</p>
+<a class="action" href="../ps5.html">OPEN EXISTING PS5 HOST</a>
+</div>
+<a class="sub" href="check.html">Safe file loading check (no jailbreak)</a>
+<a class="sub" href="../ps4/">Original PS4 WebKitty</a>
+<small>Test gateway identifies the console but waits for your click. No automatic exploit on this page. GamerHack code is attributed to its original authors.</small>
+</main><script>
+(function(){
+ var ua=navigator.userAgent||"";
+ var ps4=/PlayStation\s*4/i.test(ua),ps5=/PlayStation\s*5/i.test(ua);
+ if(ps4){document.getElementById('ps5').style.display='none';document.getElementById('chosen').textContent='PS4 detected - GamerHack test available';}
+ else if(ps5){document.getElementById('ps4').style.display='none';document.getElementById('chosen').textContent='PS5 detected - existing host available';}
+ else {document.getElementById('chosen').textContent='Console not detected - choose a link manually';}
+})();
+</script></body></html>

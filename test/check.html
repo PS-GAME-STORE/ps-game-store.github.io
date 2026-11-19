@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PS GAME STORE | Safe Test</title>
+<style>body{background:#0c0e14;color:white;font:18px Arial, sans-serif;padding:20px}h1{color:#f5c76e}button,a{background:#24262d;border:1px solid #d8a740;border-radius:8px;color:white;font:19px Arial;padding:16px;text-decoration:none}#result{white-space:pre-wrap;font:17px monospace;background:#181a23;padding:18px;line-height:1.6;overflow-wrap:anywhere}</style></head>
+<body><h1>PS GAME STORE - Safe File Check</h1><p>This checks file downloads ONLY. No exploit or payload is executed.</p>
+<button onclick="go()">TEST FILE LOADING</button><p id="result">Not started.</p><p><a href="index.html">Back to test gateway</a></p>
+<script>
+var files=['../gh-test/style.css','../gh-test/g2all/index.html','../gh-test/g2all/slopkit/core.js','../gh-test/g2all/slopkit/jb.js','../gh-test/g2all/slopkit/afterglow.js','../gh-test/g2all/slopkit/patches/1400.bin','../gh-test/g2all/goldhen_2.4b18.14.bin','../ps5.html'];
+function go(){var el=document.getElementById('result');el.textContent='Running checks...';var i=0;
+function next(){if(i>=files.length){el.textContent+='\nFinished - no exploit was executed.';return;}
+var f=files[i++],x=new XMLHttpRequest(),start=(new Date()).getTime();
+x.onreadystatechange=function(){if(x.readyState===4){var ms=(new Date()).getTime()-start;el.textContent+='\n'+f+' : HTTP '+x.status+' / '+ms+' ms'+(x.status===200?' OK':' ERROR');next();}};
+try{x.open('GET',f+'?check=1',true);x.send();}catch(e){el.textContent+='\n'+f+' ERROR '+e;next();}}
+next();}
+</script></body></html>
