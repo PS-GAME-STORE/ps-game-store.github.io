@@ -123,6 +123,46 @@ function terse(s) {
 }
 
 const SHOW_LOG = true;
+// PS GAME STORE V2: Optional lighter rendering.  Never changes WebKit,
+// Afterglow, kernel triggers, retry timing, or GoldHEN payload selection.
+const PS4_LITE_LOG = (function () {
+  try { return localStorage.getItem("ps4LiteLog") === "true"; }
+  catch (e) { return false; }
+})();
+const PS4_V2_STARTED = Date.now();
+const PS4_V2_STATS = {
+  webkitRetryEvents: 0,
+  afterglowRetries: 0,
+  afterglowSprayMisses: 0,
+  primitiveMs: null,
+  afterglowStartMs: null
+};
+let PS4_V2_LAST_SAVED = "";
+function ps4V2SaveResult(result) {
+  if (PS4_V2_LAST_SAVED === "success") return;
+  if (PS4_V2_LAST_SAVED === result) return;
+  PS4_V2_LAST_SAVED = result;
+  const record = {
+    result: result,
+    fw: typeof getPs4FwVersion === "function" ? getPs4FwVersion() : "unknown",
+    startedAt: new Date(PS4_V2_STARTED).toISOString(),
+    elapsedMs: Date.now() - PS4_V2_STARTED,
+    webkitRetryEvents: PS4_V2_STATS.webkitRetryEvents,
+    afterglowRetries: PS4_V2_STATS.afterglowRetries,
+    afterglowSprayMisses: PS4_V2_STATS.afterglowSprayMisses,
+    primitiveMs: PS4_V2_STATS.primitiveMs,
+    afterglowStartMs: PS4_V2_STATS.afterglowStartMs,
+    liteLog: PS4_LITE_LOG
+  };
+  // Only write at the end, never in a hot exploit loop.
+  try {
+    var history = JSON.parse(localStorage.getItem("ps4V2History") || "[]");
+    if (!Array.isArray(history)) history = [];
+    history.unshift(record);
+    localStorage.setItem("ps4V2History", JSON.stringify(history.slice(0, 10)));
+  } catch (e) {}
+}
+
 
 const ramBox =
   document.getElementById("ramBox");
@@ -231,6 +271,7 @@ if (SHOW_LOG && !SENT_HOME && document.body) document.body.classList.add("log");
    costs nothing and a reload is enough; a failure after it may leave the
    handles armed, and then only a cold start is safe. */
 function finishUI(ok, ran) {
+  ps4V2SaveResult(ok ? "success" : "failure");
   if (SHOW_LOG || !document.body) return;
   const m = document.getElementById("state");
   if (m)
@@ -246,32 +287,43 @@ function mark(tag, detail) {
   lastMark = Date.now();
   const raw = detail;
   detail = terse(detail);
+  const line = tag + (detail == null || detail === "" ? "" : "  " + detail);
 
-  lines.push(
-    tag +
-    (
-      detail == null || detail === ""
-        ? ""
-        : "  " + detail
-    ),
-  );
-
-  if (lines.length > 600) {
-    lines.splice(
-      0,
-      lines.length - 600,
-    );
+  // One lightweight counter per existing event; no added kernel work.
+  if (tag === "AUTO-RETRY-SCHEDULED" || tag === "AUTO-RETRY-AFTER-FAILURE") {
+    PS4_V2_STATS.webkitRetryEvents++;
   }
+  if (tag === "PRIMITIVE-OK" && PS4_V2_STATS.primitiveMs === null) {
+    PS4_V2_STATS.primitiveMs = Date.now() - PS4_V2_STARTED;
+  }
+  if (tag === "AG") {
+    if (PS4_V2_STATS.afterglowStartMs === null) {
+      PS4_V2_STATS.afterglowStartMs = Date.now() - PS4_V2_STARTED;
+    }
+    if (/attempt [0-9]+ fell short/.test(String(raw))) PS4_V2_STATS.afterglowRetries++;
+    if (/spray did not take/.test(String(raw))) PS4_V2_STATS.afterglowSprayMisses++;
+    if (/done -- jailbroken/.test(String(raw))) {
+      ps4V2SaveResult("success");
+      try { clearInterval(watchdog); } catch (e) {}
+    }
+  }
+
+  lines.push(line);
+  var truncated = lines.length > 600;
+  if (truncated) lines.splice(0, lines.length - 600);
 
   if (SHOW_LOG && outEl) {
-    outEl.textContent =
-      lines.join("\n");
-
-    scrollEl.scrollTop =
-      scrollEl.scrollHeight;
+    if (PS4_LITE_LOG && !truncated) {
+      // Append only new text instead of rebuilding the entire log each time.
+      if (lines.length === 1) outEl.textContent = line;
+      else outEl.appendChild(document.createTextNode("\n" + line));
+    } else {
+      outEl.textContent = lines.join("\n");
+    }
+    scrollEl.scrollTop = scrollEl.scrollHeight;
   }
-
 }
+
 
 function trace(tag, detail) {
   if (VERBOSE) mark(tag, detail);
