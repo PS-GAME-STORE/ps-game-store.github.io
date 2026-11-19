@@ -1,75 +1,30 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0b1220">
-    <title>PS GAME STORE | PS5 WebKit Host</title>
-    <style>
-      html, body { margin: 0; padding: 0; min-height: 100%; }
-      body { background: #080d18; color: #e5eefc; font-family: Arial, Helvetica, sans-serif; }
-      .wrap { max-width: 1150px; margin: 0 auto; padding: 22px; }
-      .masthead { border: 1px solid #34425b; border-radius: 13px; background: #111b2e; padding: 21px 24px; }
-      .eyebrow { margin: 0 0 10px; color: #88b5fa; font-size: 13px; letter-spacing: 2px; font-weight: bold; }
-      h1 { font-size: 30px; margin: 0; color: #fff; }
-      .sub { margin: 10px 0 0; color: #a8bad1; font-size: 14px; }
-      .panel-title { margin: 22px 0 9px; color: #cbd7ea; font-size: 15px; font-weight: bold; }
-      #console { margin: 0; min-height: 350px; height: 57vh; padding: 20px; overflow: auto;
-        box-sizing: border-box; border-radius: 11px; border: 1px solid #34425b; background: #0e1421;
-        color: #bcd2ef; font-size: 13px; line-height: 1.55; white-space: pre-wrap;
-        overflow-wrap: anywhere; font-family: 'Lucida Console', 'Courier New', Menlo, monospace; }
-      .footer { margin: 15px 0 10px; color: #879ab6; font-size: 12px; line-height: 1.6; }
-      .footer a { color: #8dbbff; }
-      @media (max-width: 600px) { .wrap { padding: 11px; } .masthead { padding: 17px; } h1 { font-size: 25px; } }
-    #console {
-  background-color: #050505;
-  background-image:
-    linear-gradient(
-      rgba(0, 0, 0, 0.45),
-      rgba(0, 0, 0, 0.60)
-    ),
-    url("hero.jpg");
-  background-position: center, center;
-  background-size: 100% 100%, cover;
-  background-repeat: no-repeat, no-repeat;
-  color: #ffffff;
-  text-shadow: 0 2px 5px #000000;
-  border: 1px solid #d5a536;
-  font-size: 15px;
-} 
-.wrap {
-  max-width: none;
-  width: auto;
-  margin: 0;
-  padding: 16px;
-}
-#console {
-  width: 100%;
-  min-height: 70vh;
-  height: 72vh;
-  box-sizing: border-box;
-  background-position: center center;
-  background-size: 100% 100%, cover;
-  background-repeat: no-repeat;
-  color: #ffffff;
-  text-shadow: 0 2px 5px #000;
-  font-size: 16px;
-  line-height: 1.6;
-}
-    </style>
-    <script src="src/main.js" defer></script>
-  </head>
-  <body>
-    <div class="wrap">
-<div class="masthead">
-  <p class="eyebrow">PS5 WEBKIT HOST</p>
-  <h1>PS GAME STORE</h1>
-  <p class="sub">PlayStation 5 · Firmware 13.60</p>
-</div>
-      <p class="panel-title">System log / Console output</p>
-      <pre id="console"></pre>
-      <p class="footer">Experimental software. Hosting this page does not guarantee compatibility or a successful jailbreak.<br>
-        Based on <a href="https://github.com/ufm42/wobkot">wobkot by ufm42</a> (MIT License).</p>
-    </div>
-  </body>
-</html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PS GAME STORE | PlayStation Host</title>
+<script>
+(function () {
+  var ua = navigator.userAgent || '';
+  if (/PlayStation\s+4(?:\/|\s)/i.test(ua)) {
+    window.location.replace('./ps4/');
+  } else if (/PlayStation\s+5(?:\/|\s)/i.test(ua)) {
+    window.location.replace('./ps5.html');
+  }
+}());
+</script>
+<style>
+html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#080b12;color:#f6d98a}
+main{max-width:620px;margin:10vh auto;padding:35px 22px;text-align:center}
+h1{font-size:42px;letter-spacing:2px;margin-bottom:12px}
+p{color:#d4d4d4;line-height:1.6}
+a{display:block;margin:22px auto;padding:18px 10px;max-width:380px;border:1px solid #bd8b28;color:#fff;text-decoration:none;border-radius:12px;background:#151922}
+small{color:#9fa4af}
+</style>
+</head>
+<body><main><h1>PS GAME STORE</h1><p>Select a console. PlayStation browsers redirect automatically.</p>
+<a href="./ps4/">PlayStation 4 Host (WebKitty)</a>
+<a href="./ps5.html">PlayStation 5 Host (Existing Page)</a>
+<small>PS4 software: WebKitty by ArabPixel (AGPL-3.0-or-later). See /ps4/LICENSE.</small>
+</main></body></html>
