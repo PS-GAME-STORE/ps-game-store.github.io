@@ -1,38 +1,7 @@
-# wobkot
+# PS4 WEBKIT_JB 
 
-Updated userland to use newer JSC bugs.
+Firmwares: 5.05 6.72 7.XX 8.XX 9.XX 10.XX 11.XX 12.XX 13.XX 14.00 14.02
 
-# How to use
+# Inspired by a website GAMERHACK
 
-- place payloads based on console:
-  - for ps5: `elfldr.elf` and `kexp.bin` in `ps5` folder.
-  - for ps4: `payload.bin` in `ps4` folder.
-- `py host.py`
-- open browser and type `https://{ip}`
-
-# References
-
-- [CSSFontFace-Exploit](https://github.com/ntfargo/CSSFontFace-Exploit)
-- [PS5-Webkit-Execution](https://github.com/ChendoChap/PS5-Webkit-Execution)
-- [psfree-lapse](https://github.com/Al-Azif/psfree-lapse)
-- [vue-after-free](https://github.com/Vuemony/vue-after-free)
-- [PS4-webkit-exploit-6.XX](https://github.com/synacktiv/PS4-webkit-exploit-6.XX)
-- [slopkit](https://github.com/jordyidk/slopkit)
-- [Relapse-Exploit](https://github.com/ntfargo/Relapse-Exploit)
-
-# Credits
-
-Special thanks to:
-
-- Nathan Fargo [writeup](https://linearfox.com/blog/cssfontface-uaf-playstation)
-- nhk
-- Dr.Yenyen
-- AlAzif
-- ArabPixel
-- synacktiv [writeup](https://www.synacktiv.com/publications/this-is-for-the-pwners-exploiting-a-webkit-0-day-in-playstation-4) 
-- cow
-- idlesauce
-- jordy
-- ChendoChap
-- sonic-iso
-- SISTRo
+Special thanks to: GAMERHACK 
